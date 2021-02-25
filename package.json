@@ -1,0 +1,71 @@
+{
+	"name": "robotFramework-vscodeFormatter",
+	"displayName": "Robot Framework Formatter",
+	"description": "Formatter for robot framework",
+	"version": "1.0.0",
+	"publisher": "Flibi",
+	"icon": "icon.png",
+	"engines": {
+		"vscode": "^1.28.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:robot"
+	],
+	"main": "./out/src/extension",
+	"contributes": {
+		"languages": [
+			{
+				"id": "robot",
+				"aliases": [
+					"robotframework"
+				],
+				"extensions": [
+					"robot"
+				]
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "RBFFormatter",
+			"properties": {
+				"rbfFormatter.maxCharsInArgsReinitBucket": {
+					"scope": "resource",
+					"type": "string",
+					"default": 100,
+					"description": "Variable allowing to choose the maximum length of a keyword / arguments ... (sequence of words separated by one space max) in a line. Then format the line to the minimum in size. The following lines in test or kw are based on the formatting of this line. To \"deactivate\" this operating mode, enter a high value (1000)."
+				},
+				"rbfFormatter.maxCharsInArgsKeepBucket": {
+					"scope": "resource",
+					"type": "string",
+					"default": 60,
+					"description": "Variable allowing to choose the maximum length of a keyword / arguments ... (sequence of words separated by one space max) in a line. Then format the line to the minimum in size. The following lines in test or kw are based on the formatting of preceding lines. To \"deactivate\" this operating mode, enter a high value (1000)."
+				},
+				"rbfFormatter.maxArgsInKwLineKeepBucket": {
+					"scope": "resource",
+					"type": "string",
+					"default": 10,
+					"description": "Variable allowing to choose the maximum number of keyword and arguments ... (sequence of words separated by one space max) in a line. Then format the line to the minimum in size. The following lines in test or kw are based on the formatting of this line. To \"deactivate\" this operating mode, enter a high value (1000)."
+				},					
+				"rbfFormatter.maxArgsInKwLineReinitBucket": {
+					"scope": "resource",
+					"type": "string",
+					"default": 100,
+					"description": "Variable allowing to choose the maximum number of keyword and arguments ... (sequence of words separated by one space max) in a line. Then format the line to the minimum in size. The following lines in test or kw are based on the formatting of preceding lines. To \"deactivate\" this operating mode, enter a high value (1000)."
+				},
+				"rbfFormatter.interIndent": {
+					"scope": "resource",
+					"type": "string",
+					"default": "    ",
+					"description": "Variable allowing to choose the indentation of the whole robot page, you have to put at least two spaces for robotFramework to be functional."
+				}
+			}
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Flibi/robotFramework-vscodeFormatter.git"
+	}
+}
