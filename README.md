@@ -2,168 +2,128 @@
 
 ## Features : Document Formatter
 
-* Document Formatter
-    * it automatically format the document for readability purpose f
+* Document Formatter automatically format the document for readability purpose.
 
-![Document Formatter](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/document-formatter.png)
+* This extension only do this, colors are from an other extension.
 
-* Keyword Autocomplete
-    * it scans all the included resources and search for its keywords
-    * it will suggest common keywords from BuiltIn, Selenium2Library, ExtendedSelenium2Library, and more
+* Use "SHIFT + ALT + F" or "right click" -> "Format Document" to format the page.
 
-![Keyword Autocomplete](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/smart-keyword-autocomplete.png)
+---
+   
+   * Basics
+  
+   * Not Formatted Tests Or Keywords :
+  
+   ![Basic](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/basicUc.PNG) 
 
-* Resource Autocomplete
-    * it scans all resources
+  * Formatted Tests or Keywords : 
+  
+  * Tags, Setup, Teardown, Arguments and Return are formatted independently, to keep minimal space with given indent.
+  
+    Documentation and following "..." aren't formatted, they remain as they were write.
+	
+    Keywords are formatted in groups, If newline or new test, it starts a new formatted group.
+  
+    ![Basic Format](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/BasicUcFormated.PNG) 
 
-![Resource Autocomplete](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/smart-resource-autocomplete.png)
+---
 
-* Variable Autocomplete
-    * it scans all the included resources and search for its global variables
-    * it scans all variables from local files
+* Document Formatter automatically format FOR and IF loop (rbf 4.X for If Loop).
 
-![Variable Autocomplete](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/smart-variable-autocomplete.png)
-
-* Language Autocomplete
-
-![Language Autocomplete](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/builtin-grammar-autocomplete.png)
-
-* Find All References
-    * Show all references of keywords
-    * Show all references of global variables
-
-![Find All References](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/reference-provider.png)
-
-* Keyword Definition
-    * Show the original keyword location
-    * ctrl + click to the keyword will bring you to the original keyword location
-
-![Keyword Definition](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/keyword-definition.png)
-
-* Variable Definition
-    * Show the original global and suite variable location
-    * ctrl + click to the variable will bring you to the original variable location
-
-![Variable Definition](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/variable-definition.png)
-
-* Keyword Rename
-    * can rename keyword and all its reference
-
-![Keyword Rename](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/keyword-rename.png)
-
-* Variable Rename
-    * can rename global variable and all its reference
-
-![Variable Rename](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/variable-rename.png)
-
-* Variable Hover
-    * Hovering your mouse on global variable will give you the information about its initialization value
-
-![Variable Hover](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/variable-hover.png)
-
-* Keyword Hover
-    * Hovering your mouse on keyword will give you the information about its Arguments and Return Value
-
-![Keyword Hover](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/keyword-hover.png)
-
-## Configurations
-
-You can create default configuration for your workspace by creating config.json inside your workspace root folder:
-
-* Default Keyword Autocomplete Library
-    * You can set default autocomplete keyword from library you want across all your files in the workspace
-
-``` javascript
-//config.json
-{
-    "lib":["AppiumLibrary", "Process", ...] //it must be in array
-}
-```
-
-## Requirements
-
-You need to have robotframework language support for visual studio code if you want text highlighter
-
-## Known Issues
-
-Little performance issues when scanning when handle more than 300++ files whith complex structure in workspace
-
-## For Contributors
-
-- You can added new suggestion library with its keywords at src/dictionary/KeywordDictionary.ts with format:
-
-``` typescript
-export var LIB =
-	[
-        //your new library is here
-		{
-			name: "libraryName", //name must be correct
-			key: [ "keyword1", "keyword2" ]
-        },
-        ...
-    ]
+    * Not Formatted Loop :
+	
+    ![Loop](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/LoopKw.PNG) 
     
-```
+	* Formatted Loop : 
+  
+	    * Each new nested For or If initiate a new bucket of formatted keywords.
+	  
+			FOR and IF or ELSE IF keywords are formatted independently.
+			 
+			It have the same particularities than basic format. 
 
-- Don't forget to add definition if you add new method, function, class or anything new:
+    ![Loop Format](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/LoopKwFormated.PNG) 
+  
+---
 
-``` typescript
-/**
- *  this is class for something
- */
-export class MyClass{
+* Document Formatter Indent Option.
+     
+	![Param Indent](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/paramIndent.PNG) 
 
-    /**
-     * This is method to do something
-     *
-     * @param args arguments of something
-     *
-     * @return something
-     */
-    public myMethod(args) : any {
-        .
-        .
-        .
-        return 0;
-    }
+    * Document Formatted with 2 spaces indent :
+	
+    ![two indents](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/2indents.PNG) 
 
-}
-```
+---
 
-- Don't forget to update the version on "package.json" and add changelog on "CHANGELOG.md" if you made some changes:
+* Document Formatter : Keyword with one or many arguments very long (by default, more than 60 chars, excluding spaces in count).
+	
+	* Non Formatted Test With Long Arg Keyword :
+     
+	![longArg](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/LongVarKeepOrReinitBucket.PNG) 
 
-``` javascript
-//package.json
-{
-    "name": "robotf-extension",
-    "displayName": "RobotF Extension",
-    "description": "Extension for robot framework",
-    "version": "1.5.1", //update this version
-    "publisher": "kmk-labs",
-    ..
-    ..
-}
-```
+    * Test Formatted :
+	
+		* Format type one : only the long keyword is formatted, following lines keep precedent lines format group.
+		
+		![longArgFormatKeep](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/LongVarKeepBucketFormated.PNG) 
+		
+		* Option to choose which max length in arg you want before format :
+		
+			To avoid bug, if you choose to use this option, set "maxCharsInArgsReinitBucket" to "1000".
+		
+		![paramlongArgFormatKeep](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/paramLongVarKeepBucket.PNG) 
+		
+		* Format type two : only the long keyword line is formatted, following lines start a new formatted group.
+		
+		![longArgFormatReinit](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/LongVarReinitBucketFormated.PNG) 
+		
+		* Option to choose which max length in arg you want before format :
+		
+			To avoid bug, if you choose to use this option, set "maxCharsInArgsKeepBucket" to "1000".
+		
+		![paramlongArgFormatReinit](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/paramLongVarReinitBucket.PNG) 
 
-## Release Notes
+---
 
-### 1.6.0
-Now you can create your own workspace configuration
+* Document Formatter : line with a lot of keywords or args (by default, more than 10 kw/args).
+	
+	* Non Formatted Test With Many Args and Keywords :
+     
+	![manyArg](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/KeywordWithManyVarKeepOrReinitBucket.PNG) 
 
-### 1.5.0
-Added reference provider
+    * Test Formatted :
+	
+		* Format type one : only the line with many args/kw is formatted, following lines keep precedent lines format group.
+		
+		![manyArgFormatKeep](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/KeywordWithManyVarKeepBucketFormated.PNG) 
+		
+		* Option to choose which max args/kw you want before format :
+		
+			To avoid bug, if you choose to use this option, set "maxArgsInKwLineReinitBucket" to "1000".
+		
+		![parammanyArgFormatKeep](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/paramKwManyVarKeepBucket.PNG) 
+		
+		* Format type two : only the line with many args/kw is formatted, following lines start a new format group.
+		
+		![manyArgFormatReinit](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/KeywordWithManyVarReinitBucketFormated.PNG) 
+		
+		* Option to choose which max args/kw you want before format :
+		
+			To avoid bug, if you choose to use this option, set "maxArgsInKwLineKeepBucket" to "1000".
+		
+		![parammanyArgFormatReinit](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/paramManyVarInKwReinitBucket.PNG) 
+		
 
-### 1.4.0
-Major code restructure
+# Credits
 
-### 1.3.1
-Added hover provider
+* Coloration comes from "Robot Framework Intellisense FORK"
 
-### 1.2.0
-Added rename provider
+* tumit : https://github.com/tumit/vscode-rf-formatter
 
-### 1.1.0
-Added definition provider
-
+* nayanda1 : https://github.com/KMK-ONLINE/vscode-robotExtension
+	
+ 
+# Versions
 ### 1.0.0
-Initial release of robot framework extension
+Initial release

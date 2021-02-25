@@ -169,7 +169,7 @@ class RobotFormatProvider {
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
                 let line = lines[x];
-                line = robotLoopIndent.slice(0, -4) + line.split(/\s{2,}/).join(interIndent);
+                line = robotLoopIndent.slice(0, -interIndent.length) + line.split(/\s{2,}/).join(interIndent);
                 lines[x] = line;
                 bucket = [];
             } else if (type == Type.Name) {
@@ -189,7 +189,7 @@ class RobotFormatProvider {
                     const columns = RobotFormatProvider.identifyBucketColumns(bucket, lines);
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
-                robotLoopIndent = robotLoopIndent.slice(0, -4);
+                robotLoopIndent = robotLoopIndent.slice(0, -interIndent.length);
                 let line = lines[x];
                 line = robotLoopIndent + line.split(/\s{2,}/).join(interIndent);
                 lines[x] = line;
