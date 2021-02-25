@@ -3,7 +3,7 @@
 ## Features : Document Formatter
 
 * Document Formatter
-    * it automatically format the document for readability purpose
+    * it automatically format the document for readability purpose f
 
 ![Document Formatter](https://github.com/KMK-ONLINE/vscode-robotExtension/raw/master/document-formatter.png)
 
