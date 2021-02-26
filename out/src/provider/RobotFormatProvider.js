@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 const vscode_1 = require("vscode");
 let config = vscode_1.workspace.getConfiguration('rbfFormatter');
-let maxCharsInArgsReinitBucket = config.get('maxCharsInArgsReinitBucket', "100");
+let maxCharsInArgsReinitBucket = config.get('maxCharsInArgsReinitBucket', "1000");
 let maxCharsInArgsKeepBucket = config.get('maxCharsInArgsKeepBucket', "60");
 let maxArgsInKwLineKeepBucket = config.get('maxArgsInKwLineKeepBucket', "10");
-let maxArgsInKwLineReinitBucket = config.get('maxArgsInKwLineReinitBucket', "100");
+let maxArgsInKwLineReinitBucket = config.get('maxArgsInKwLineReinitBucket', "1000");
 let interIndent = config.get('interIndent', "    ");
 var Type;
 var robotLoopIndent = "";

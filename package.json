@@ -34,7 +34,7 @@
 				"rbfFormatter.maxCharsInArgsReinitBucket": {
 					"scope": "resource",
 					"type": "string",
-					"default": 100,
+					"default": 1000,
 					"description": "Variable allowing to choose the maximum length of a keyword / arguments ... (sequence of words separated by one space max) in a line. Then format the line to the minimum in size. The following lines in test or kw are based on the formatting of this line. To \"deactivate\" this operating mode, enter a high value (1000)."
 				},
 				"rbfFormatter.maxCharsInArgsKeepBucket": {
@@ -52,7 +52,7 @@
 				"rbfFormatter.maxArgsInKwLineReinitBucket": {
 					"scope": "resource",
 					"type": "string",
-					"default": 100,
+					"default": 1000,
 					"description": "Variable allowing to choose the maximum number of keyword and arguments ... (sequence of words separated by one space max) in a line. Then format the line to the minimum in size. The following lines in test or kw are based on the formatting of preceding lines. To \"deactivate\" this operating mode, enter a high value (1000)."
 				},
 				"rbfFormatter.interIndent": {
