@@ -1,6 +1,6 @@
 {
 	"name": "robotFramework-vscodeFormatter",
-	"displayName": "Robot Framework Formatter",
+	"displayName": "Robot Framework Advanced Formatter",
 	"description": "Formatter for robot framework",
 	"version": "1.0.0",
 	"publisher": "Flibi",
