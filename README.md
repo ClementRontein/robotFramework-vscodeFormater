@@ -127,3 +127,6 @@
 # Versions
 ### 1.0.0
 Initial release
+### 1.1.0
+Non Formatted ready to read line by robot Framework with "|||" in the beginning of the line.
+Use "|" in indentation is now retroactive if you want to suppress them
