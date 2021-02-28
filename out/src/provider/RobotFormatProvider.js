@@ -83,15 +83,16 @@ class RobotFormatProvider {
                     const columns = RobotFormatProvider.identifyBucketColumns(bucket, lines);
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
-                lines[i] = line.split(/\s{2,}/).join(interIndent);
+				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+				lines[i] = arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
                 bucket = [];
             } else if (type == Type.Loop) {
-                var test = RobotFormatProvider.loopOverNested(bucket, lines, i, robotLoopIndent, lastType);
-                bucket = test[0];
-                lines = test[1];
-                i = test[2];
-                robotLoopIndent = test[3];
-                lastType = test[4];
+                var listReturnedArgs = RobotFormatProvider.loopOverNested(bucket, lines, i, robotLoopIndent, lastType);
+                bucket = listReturnedArgs[0];
+                lines = listReturnedArgs[1];
+                i = listReturnedArgs[2];
+                robotLoopIndent = listReturnedArgs[3];
+                lastType = listReturnedArgs[4];
             } else if (type == Type.Comment) {
                 lines[i] = line;
                 var listeResultsLoop = RobotFormatProvider.loopOverComment(lines, i, robotLoopIndent);
@@ -99,7 +100,9 @@ class RobotFormatProvider {
                 i = listeResultsLoop[1];
                 robotLoopIndent = listeResultsLoop[2];
             } else if (type == Type.LongKeyword) {
-                lines[i] = line.split(/\s{2,}/).join(interIndent);
+                let line = lines[i];
+				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+				lines[i] = arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
             } else {
                 bucket.push(i);
             }
@@ -129,9 +132,9 @@ class RobotFormatProvider {
             const columns = RobotFormatProvider.identifyBucketColumns(bucket, lines);
             RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
         }
-        let line = lines[index];
-        line = robotLoopIndent + line.split(/\s{2,}/).join(interIndent);
-        lines[index] = line;
+        let line = lines[index];	
+		let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+		lines[index] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);			
         bucket = [];
         robotLoopIndent = robotLoopIndent + interIndent;
         for (let x = index + 1; x < lines.length; x++) {
@@ -143,8 +146,8 @@ class RobotFormatProvider {
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
                 let line = lines[x];
-                line = robotLoopIndent + line.split(/\s{2,}/).join(interIndent);
-                lines[x] = line;
+				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
                 bucket = [];
             } else if (type == Type.Comment) {
                 lines[x] = line;
@@ -153,24 +156,24 @@ class RobotFormatProvider {
                 x = listeResultsLoop[1];
                 robotLoopIndent = listeResultsLoop[2];
             } else if (type == Type.LongKeyword) {
-                let line = lines[x];
-                line = robotLoopIndent + line.split(/\s{2,}/).join(interIndent);
-                lines[x] = line;
+				let line = lines[x];
+				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
             } else if (type == Type.Loop) {
-                var test = RobotFormatProvider.loopOverNested(bucket, lines, x, robotLoopIndent, lastType);
-                bucket = test[0];
-                lines = test[1];
-                x = test[2];
-                robotLoopIndent = test[3];
-                lastType = test[4];
+                var listReturnedArgs = RobotFormatProvider.loopOverNested(bucket, lines, x, robotLoopIndent, lastType);
+                bucket = listReturnedArgs[0];
+                lines = listReturnedArgs[1];
+                x = listReturnedArgs[2];
+                robotLoopIndent = listReturnedArgs[3];
+                lastType = listReturnedArgs[4];
             } else if (type == Type.Else) {
                 if (bucket.length > 0) {
                     const columns = RobotFormatProvider.identifyBucketColumns(bucket, lines);
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
                 let line = lines[x];
-                line = robotLoopIndent.slice(0, -interIndent.length) + line.split(/\s{2,}/).join(interIndent);
-                lines[x] = line;
+				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+				lines[x] = robotLoopIndent.replace(/[^\s]/, "").slice(0, -interIndent.length) + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
                 bucket = [];
             } else if (type == Type.Name) {
                 if (bucket.length > 0) {
@@ -179,7 +182,7 @@ class RobotFormatProvider {
                 }
                 robotLoopIndent = "";
                 let line = lines[x];
-                line = line.split(/\s{2,}/).join(interIndent);
+                line = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/).join(interIndent);
                 lines[x] = line;
                 bucket = [];
                 index = x - 1
@@ -189,10 +192,10 @@ class RobotFormatProvider {
                     const columns = RobotFormatProvider.identifyBucketColumns(bucket, lines);
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
-                robotLoopIndent = robotLoopIndent.slice(0, -interIndent.length);
+                robotLoopIndent = robotLoopIndent.replace(/[^\s]/, "").slice(0, -interIndent.length);
                 let line = lines[x];
-                line = robotLoopIndent + line.split(/\s{2,}/).join(interIndent);
-                lines[x] = line;
+				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
                 bucket = [];
                 index = x
                 return [bucket, lines, index, robotLoopIndent, lastType];
@@ -209,7 +212,7 @@ class RobotFormatProvider {
         let columns = [];
         for (var index of bucket) {
             let line = lines[index];
-            let arr = line.split(/\s{2,}/);
+            let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/);
             for (let i = columns.length; i < arr.length; i++) {
                 columns.push(0);
             }
@@ -229,13 +232,13 @@ class RobotFormatProvider {
     }
 
     static formatLine(line, columns, robotLoopIndent) {
-        let arr = line.split(/\s{2,}/);
+        let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/);
         for (let i = 0; i < arr.length; i++) {
             arr[i] = arr[i] + (i == arr.length - 1 ?
                 '' :
                 multiplyString(' ', columns[i] - arr[i].length));
         }
-        return robotLoopIndent + arr.join(interIndent);
+        return robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
     }
 
     static getLineType(line) {
@@ -245,7 +248,7 @@ class RobotFormatProvider {
         var manyArgsKwReinitBucket = new RegExp("([.\\s]{2,}([^\\s](\\s[^\\s]){0,1})+){" + maxArgsInKwLineReinitBucket + ",}");
         let l = line.replace(/\s+$/, "");
         if (/^\S+/.test(l)) {
-            if (l.replace(/^\\\s+/, "\\ ").split(/\s{2,}/).length > 1) {
+            if (l.replace(/^\\\s+/, "\\ ").split(/\s{2,}\|{0,}\s{2,}|\s{2,}/).length > 1) {
                 return Type.Resource;
             } else {
                 return Type.Name;
@@ -254,7 +257,7 @@ class RobotFormatProvider {
         if (l.length == 0) {
             return Type.Empty;
         }
-        if (/^\s*#/.test(l) || /^\s*\[Documentation/.test(l)) {
+        if (/^\s*#/.test(l) || /^\s*\[Documentation/.test(l) || /^\s*\|\|\|/.test(l)) {
             return Type.Comment;
         }
         if (/^\s*FOR/.test(l) || /^\s*IF/.test(l)) {
