@@ -266,7 +266,7 @@ class RobotFormatProvider {
         if (/^\s*END/.test(l)) {
             return Type.End;
         }
-        if (/^\s*\.\.\.  /.test(l)) {
+        if (/^\s*\.\.\.  /.test(l) && !(/\s*AND  /.test(l))) {
             return Type.ThreePoints;
         }
         if (/^\s*ELSE/.test(l)) {
