@@ -85,6 +85,7 @@ class RobotFormatProvider {
                 }
 				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
 				lines[i] = arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+				lines[i] = lines[i].trimEnd()
                 bucket = [];
             } else if (type == Type.Loop) {
                 var listReturnedArgs = RobotFormatProvider.loopOverNested(bucket, lines, i, robotLoopIndent, lastType);
@@ -103,6 +104,7 @@ class RobotFormatProvider {
                 let line = lines[i];
 				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
 				lines[i] = arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+				lines[i] = lines[i].trimEnd()
             } else {
                 bucket.push(i);
             }
@@ -135,6 +137,7 @@ class RobotFormatProvider {
         let line = lines[index];	
 		let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
 		lines[index] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);			
+		lines[index] = lines[index].trimEnd()
         bucket = [];
         robotLoopIndent = robotLoopIndent + interIndent;
         for (let x = index + 1; x < lines.length; x++) {
@@ -148,6 +151,7 @@ class RobotFormatProvider {
                 let line = lines[x];
 				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
 				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+				lines[x] = lines[x].trimEnd()
                 bucket = [];
             } else if (type == Type.Comment) {
                 lines[x] = line;
@@ -159,6 +163,7 @@ class RobotFormatProvider {
 				let line = lines[x];
 				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
 				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+				lines[x] = lines[x].trimEnd()
             } else if (type == Type.Loop) {
                 var listReturnedArgs = RobotFormatProvider.loopOverNested(bucket, lines, x, robotLoopIndent, lastType);
                 bucket = listReturnedArgs[0];
@@ -174,6 +179,7 @@ class RobotFormatProvider {
                 let line = lines[x];
 				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
 				lines[x] = robotLoopIndent.replace(/[^\s]/, "").slice(0, -interIndent.length) + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+				lines[x] = lines[x].trimEnd()
                 bucket = [];
             } else if (type == Type.Name) {
                 if (bucket.length > 0) {
@@ -183,7 +189,7 @@ class RobotFormatProvider {
                 robotLoopIndent = "";
                 let line = lines[x];
                 line = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/).join(interIndent);
-                lines[x] = line;
+                lines[x] = line.trimEnd();
                 bucket = [];
                 index = x - 1
                 return [bucket, lines, index, robotLoopIndent, lastType];
@@ -196,6 +202,7 @@ class RobotFormatProvider {
                 let line = lines[x];
 				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
 				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+				lines[x] = lines[x].trimEnd()
                 bucket = [];
                 index = x
                 return [bucket, lines, index, robotLoopIndent, lastType];
@@ -238,7 +245,7 @@ class RobotFormatProvider {
                 '' :
                 multiplyString(' ', columns[i] - arr[i].length));
         }
-        return robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+        return (robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent)).trimEnd();
     }
 
     static getLineType(line) {
