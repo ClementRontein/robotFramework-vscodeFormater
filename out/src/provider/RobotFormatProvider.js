@@ -267,7 +267,7 @@ class RobotFormatProvider {
         if (/^\s*#/.test(l) || /^\s*\[Documentation/.test(l) || /^\s*\|\|\|/.test(l)) {
             return Type.Comment;
         }
-        if (/^\s*FOR/.test(l) || /^\s*IF/.test(l)) {
+        if (/^\s*FOR/.test(l) || /^\s*IF/.test(l) || /^\s*GIVEN/.test(l)) {
             return Type.Loop;
         }
         if (/^\s*END/.test(l)) {
@@ -276,7 +276,7 @@ class RobotFormatProvider {
         if (/^\s*\.\.\.  /.test(l) && !(/\s*AND  /.test(l))) {
             return Type.ThreePoints;
         }
-        if (/^\s*ELSE/.test(l)) {
+        if (/^\s*ELSE/.test(l) || /^\s*THEN/.test(l) || /^\s*WHEN/.test(l)) {
             return Type.Else;
         }
         if (/^\s*\[Tags/.test(l) || veryLongStringReinitBucket.test(l) || manyArgsKwReinitBucket.test(l) || /^\s*\[Setup/.test(l) || /^\s*\[Teardown/.test(l) || /^\s*\[Arguments/.test(l) || /^\s*\[Return/.test(l)) {
