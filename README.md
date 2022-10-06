@@ -21,6 +21,8 @@
   * Tags, Setup, Teardown, Arguments and Return are formatted independently, to keep minimal space with given indent.
   
     Documentation and following "..." aren't formatted, they remain as they were write.
+
+    You can use "|||" in the beginning of a line to avoid the formatting of the line.
 	
     Keywords are formatted in groups, If newline or new test, it starts a new formatted group.
   
@@ -36,9 +38,9 @@
     
 	* Formatted Loop : 
   
-	    * Each new nested For or If initiate a new bucket of formatted keywords.
+	    * Each new nested FOR, IF, GIVEN or TRY initiate a new bucket of formatted keywords.
 	  
-			FOR and IF or ELSE IF keywords are formatted independently.
+			FOR, IF or ELSE IF, GIVEN THEN, and TRY EXCEPT FINNALY keywords are formatted independently.
 			 
 			It have the same particularities than basic format. 
 
@@ -53,6 +55,11 @@
     * Document Formatted with 2 spaces indent :
 	
     ![two indents](https://github.com/Flibi/robotFramework-vscodeFormatter/raw/master/pictures/2indents.PNG) 
+
+---
+
+* Document Formatter listKeywordToFormat Option.
+	* List Of Keyword You want To automatically format with given indent.
 
 ---
 
@@ -130,3 +137,7 @@ Initial release
 ### 1.1.0
 Non Formatted ready to read line by robot Framework with "|||" in the beginning of the line.
 Use "|" in indentation is now retroactive if you want to suppress them
+### 1.2
+Keyword, Tags, Return ... Are now case insensitive.
+TRY EXCEPT FINALLY from RFW 5 added to formater.
+Added listKeywordToFormat option
