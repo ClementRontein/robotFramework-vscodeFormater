@@ -9,10 +9,11 @@ let maxCharsInArgsKeepBucket = config.get('maxCharsInArgsKeepBucket', "60");
 let maxArgsInKwLineKeepBucket = config.get('maxArgsInKwLineKeepBucket', "10");
 let maxArgsInKwLineReinitBucket = config.get('maxArgsInKwLineReinitBucket', "1000");
 let interIndent = config.get('interIndent', "    ");
+var listKeywordToFormat = config.get('listKeywordToFormat', [])
 var Type;
 var robotLoopIndent = "";
 
-(function(Type) {
+(function (Type) {
     Type[Type["Resource"] = 0] = "Resource";
     Type[Type["Body"] = 1] = "Body";
     Type[Type["Name"] = 2] = "Name";
@@ -52,6 +53,14 @@ function documentEditor(ranges, newStr) {
 }
 class RobotFormatProvider {
     provideDocumentFormattingEdits(document, options, token) {
+        var profileIDPattern = /^[\s-|]+$/
+        if (interIndent.includes("  ") || interIndent.includes("||")) {
+        } else {
+            interIndent = "    ";
+        }
+        if (!(profileIDPattern.test(interIndent))) {
+            interIndent = "    ";
+        }
         let ranges = RobotFormatProvider.getAllLineRange(document);
         let formatted = RobotFormatProvider.groupFormat(document);
         return documentEditor(ranges, formatted);
@@ -83,9 +92,9 @@ class RobotFormatProvider {
                     const columns = RobotFormatProvider.identifyBucketColumns(bucket, lines);
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
-				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
-				lines[i] = arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
-				lines[i] = lines[i].trimEnd()
+                let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+                lines[i] = arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+                lines[i] = lines[i].trimEnd()
                 bucket = [];
             } else if (type == Type.Loop) {
                 var listReturnedArgs = RobotFormatProvider.loopOverNested(bucket, lines, i, robotLoopIndent, lastType);
@@ -102,9 +111,9 @@ class RobotFormatProvider {
                 robotLoopIndent = listeResultsLoop[2];
             } else if (type == Type.LongKeyword) {
                 let line = lines[i];
-				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
-				lines[i] = arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
-				lines[i] = lines[i].trimEnd()
+                let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+                lines[i] = arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+                lines[i] = lines[i].trimEnd()
             } else {
                 bucket.push(i);
             }
@@ -134,10 +143,10 @@ class RobotFormatProvider {
             const columns = RobotFormatProvider.identifyBucketColumns(bucket, lines);
             RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
         }
-        let line = lines[index];	
-		let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
-		lines[index] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);			
-		lines[index] = lines[index].trimEnd()
+        let line = lines[index];
+        let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+        lines[index] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+        lines[index] = lines[index].trimEnd()
         bucket = [];
         robotLoopIndent = robotLoopIndent + interIndent;
         for (let x = index + 1; x < lines.length; x++) {
@@ -149,9 +158,9 @@ class RobotFormatProvider {
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
                 let line = lines[x];
-				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
-				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
-				lines[x] = lines[x].trimEnd()
+                let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+                lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+                lines[x] = lines[x].trimEnd()
                 bucket = [];
             } else if (type == Type.Comment) {
                 lines[x] = line;
@@ -160,10 +169,10 @@ class RobotFormatProvider {
                 x = listeResultsLoop[1];
                 robotLoopIndent = listeResultsLoop[2];
             } else if (type == Type.LongKeyword) {
-				let line = lines[x];
-				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
-				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
-				lines[x] = lines[x].trimEnd()
+                let line = lines[x];
+                let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+                lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+                lines[x] = lines[x].trimEnd()
             } else if (type == Type.Loop) {
                 var listReturnedArgs = RobotFormatProvider.loopOverNested(bucket, lines, x, robotLoopIndent, lastType);
                 bucket = listReturnedArgs[0];
@@ -177,9 +186,9 @@ class RobotFormatProvider {
                     RobotFormatProvider.formatBucket(bucket, columns, lines, robotLoopIndent);
                 }
                 let line = lines[x];
-				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
-				lines[x] = robotLoopIndent.replace(/[^\s]/, "").slice(0, -interIndent.length) + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
-				lines[x] = lines[x].trimEnd()
+                let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+                lines[x] = robotLoopIndent.replace(/[^\s]/, "").slice(0, -interIndent.length) + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+                lines[x] = lines[x].trimEnd()
                 bucket = [];
             } else if (type == Type.Name) {
                 if (bucket.length > 0) {
@@ -200,9 +209,9 @@ class RobotFormatProvider {
                 }
                 robotLoopIndent = robotLoopIndent.replace(/[^\s]/, "").slice(0, -interIndent.length);
                 let line = lines[x];
-				let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
-				lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
-				lines[x] = lines[x].trimEnd()
+                let arr = line.split(/\s{2,}\|{0,}\s{2,}|\s{2,}/)
+                lines[x] = robotLoopIndent.replace(/[^\s]/, "") + arr.slice(0, 2).join(interIndent.replace(/[^\s]/, "")) + (arr.length > 2 ? interIndent : "") + arr.slice(2).join(interIndent);
+                lines[x] = lines[x].trimEnd()
                 bucket = [];
                 index = x
                 return [bucket, lines, index, robotLoopIndent, lastType];
@@ -264,26 +273,32 @@ class RobotFormatProvider {
         if (l.length == 0) {
             return Type.Empty;
         }
-        if (/^\s*#/.test(l) || /^\s*\[Documentation/.test(l) || /^\s*\|\|\|/.test(l)) {
+        if (/^(\s|\|)*#/.test(l) || /^(\s|\|)*\[Documentation/i.test(l) || /^\s*\|\|\|/.test(l)) {
             return Type.Comment;
         }
-        if (/^\s*FOR/.test(l) || /^\s*IF/.test(l) || /^\s*GIVEN/.test(l)) {
+        if (/^(\s|\|)*FOR/.test(l) || /^(\s|\|)*IF/.test(l) || /^(\s|\|)*GIVEN/.test(l) || /^(\s|\|)*TRY/.test(l)) {
             return Type.Loop;
         }
-        if (/^\s*END/.test(l)) {
+        if (/^(\s|\|)*END/.test(l)) {
             return Type.End;
         }
         if (/^\s*\.\.\.  /.test(l) && !(/\s*AND  /.test(l))) {
             return Type.ThreePoints;
         }
-        if (/^\s*ELSE/.test(l) || /^\s*THEN/.test(l) || /^\s*WHEN/.test(l)) {
+        if (/^(\s|\|)*ELSE/.test(l) || /^(\s|\|)*THEN/.test(l) || /^(\s|\|)*WHEN/.test(l) || /^(\s|\|)*EXCEPT/.test(l) || /^(\s|\|)*FINALLY/.test(l)) {
             return Type.Else;
         }
-        if (/^\s*\[Tags/.test(l) || veryLongStringReinitBucket.test(l) || manyArgsKwReinitBucket.test(l) || /^\s*\[Setup/.test(l) || /^\s*\[Teardown/.test(l) || /^\s*\[Arguments/.test(l) || /^\s*\[Return/.test(l)) {
+        if (/^(\s|\|)*\[Tags/i.test(l) || veryLongStringReinitBucket.test(l) || manyArgsKwReinitBucket.test(l) || /^(\s|\|)*\[Setup/i.test(l) || /^(\s|\|)*\[Teardown/i.test(l) || /^(\s|\|)*\[Arguments/i.test(l) || /^(\s|\|)*\[Return/i.test(l)) {
             return Type.Formated;
         }
-        if (/^\s*Go To/.test(l) || longStringKeepBucket.test(l) || manyArgsKwKeepBucket.test(l) || /^\s*Execute JavaScript/.test(l)) {
+        if (longStringKeepBucket.test(l) || manyArgsKwKeepBucket.test(l)) {
             return Type.LongKeyword;
+        }
+        for (let keyword of listKeywordToFormat) {
+            var kwRegex = new RegExp("^.*(\\s|\\|){2,}" + keyword + "(\\s|\\|){2,}.*$", 'i');
+            if (kwRegex.test(l)) {
+                return Type.LongKeyword;
+            }
         }
         return Type.Body;
     }
