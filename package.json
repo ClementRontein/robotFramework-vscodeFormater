@@ -2,7 +2,7 @@
 	"name": "robotFramework-vscodeFormatter",
 	"displayName": "Robot-Framework-Formatter",
 	"description": "VsCode Formatter for robot framework",
-	"version": "1.2",
+	"version": "1.2.0",
 	"publisher": "Flibi",
 	"icon": "icon.png",
 	"engines": {
