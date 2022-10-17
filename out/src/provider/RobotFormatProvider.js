@@ -276,7 +276,7 @@ class RobotFormatProvider {
         if (/^(\s|\|)*#/.test(l) || /^(\s|\|)*\[Documentation/i.test(l) || /^\s*\|\|\|/.test(l)) {
             return Type.Comment;
         }
-        if (/^(\s|\|)*FOR/.test(l) || /^(\s|\|)*IF/.test(l) || /^(\s|\|)*GIVEN/.test(l) || /^(\s|\|)*TRY/.test(l)) {
+        if (/^(\s|\|)*FOR/.test(l) || /^(\s|\|)*IF/.test(l) || /^(\s|\|)*GIVEN/.test(l) || /^(\s|\|)*WHILE/.test(l) || /^(\s|\|)*TRY/.test(l)) {
             return Type.Loop;
         }
         if (/^(\s|\|)*END/.test(l)) {
