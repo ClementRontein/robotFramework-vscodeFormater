@@ -141,3 +141,5 @@ Use "|" in indentation is now retroactive if you want to suppress them
 Keyword, Tags, Return ... Are now case insensitive.
 TRY EXCEPT FINALLY from RFW 5 added to formater.
 Added listKeywordToFormat option
+### 1.2.1
+Adding WHILE Loop to formatter
